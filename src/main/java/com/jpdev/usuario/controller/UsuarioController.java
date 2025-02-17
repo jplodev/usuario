@@ -1,6 +1,8 @@
 package com.jpdev.usuario.controller;
 
 import com.jpdev.usuario.business.UsuarioService;
+import com.jpdev.usuario.business.dtos.EnderecoDTO;
+import com.jpdev.usuario.business.dtos.TelefoneDTO;
 import com.jpdev.usuario.business.dtos.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.entity.Usuario;
 import com.jpdev.usuario.infrastructure.security.JwtUtil;
@@ -34,7 +36,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscaUsuarioPorEmail(@RequestParam("email") String email){
+    public ResponseEntity<UsuarioDTO> buscaUsuarioPorEmail(@RequestParam("email") String email){
         return ResponseEntity.ok(usuarioService.buscaUsuarioPorEmail(email));
     }
 
@@ -47,5 +49,15 @@ public class UsuarioController {
     @PutMapping
     public ResponseEntity<UsuarioDTO> atualizaUsuario(@RequestBody UsuarioDTO usuarioDTO, @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, usuarioDTO));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO enderecoDTO, @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, enderecoDTO));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, telefoneDTO));
     }
 }
