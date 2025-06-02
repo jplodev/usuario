@@ -8,6 +8,7 @@ import com.jpdev.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
 @RequiredArgsConstructor
 @Service
@@ -37,5 +38,13 @@ public class UsuarioService {
 
     public boolean verificaEmailExistente(String email){
         return usuarioRepository.existsByEmail(email);
+    }
+
+    public Usuario buscaUsuarioPorEmail(String email){
+        return usuarioRepository.findByEmail(email).orElseThrow(() -> new ResourceAccessException("Email não encontrado" + email));
+    }
+
+    public void deleteUsuarioPorEmail(String email){
+        usuarioRepository.deleteByEmail(email);
     }
 }
