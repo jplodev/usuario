@@ -1,6 +1,5 @@
-package com.jpdev.usuario.infrastructure.entity;
+package com.jpdev.usuario.business.dtos;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
@@ -8,13 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Entity
-@Table(name = "endereco")
-public class Endereco {
+public class EnderecoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String rua;
     private String numero;
     private String bairro;
