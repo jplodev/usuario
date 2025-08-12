@@ -3,6 +3,8 @@ package com.jpdev.usuario.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,5 +29,8 @@ public class Endereco {
     private String estado;
     @Column(name = "cep", length = 100)
     private String cep;
+    @Column(name = "complemento", length = 100)
     private String complemento;
+    @Column(name = "usuario_id")
+    private Long usuario_id;
 }

@@ -1,6 +1,8 @@
 package com.jpdev.usuario.controller;
 
 import com.jpdev.usuario.business.UsuarioService;
+import com.jpdev.usuario.business.dto.EnderecoDTO;
+import com.jpdev.usuario.business.dto.TelefoneDTO;
 import com.jpdev.usuario.business.dto.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +34,7 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<UsuarioDTO> buscaUsuarioPorEmail(@RequestParam("email") String email){
-        return ResponseEntity.ok(usuarioService.atualizaUsuarioPorEmail(email));
+        return ResponseEntity.ok(usuarioService.buscaUsuarioPorEmail(email));
     }
 
     @DeleteMapping("/{email}")
@@ -45,5 +47,17 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(@RequestBody UsuarioDTO dto,
                                                            @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.atualizaUsuarioPorEmail(token, dto));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO dto,
+                                                        @RequestParam("id") long id){
+        return ResponseEntity.ok(usuarioService.atualizaEnderecoPorId(id, dto));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO dto,
+                                                        @RequestParam("id") long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefonePorId(id, dto));
     }
 }
