@@ -3,6 +3,8 @@ package com.jpdev.usuario.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,4 +21,7 @@ public class Telefone {
     private String ddd;
     @Column(name = "numero", length = 10)
     private String numero;
+    @Column(name = "usuario_id")
+    private Long usuario_id;
+
 }
