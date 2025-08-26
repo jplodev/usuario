@@ -1,6 +1,8 @@
 package com.jpdev.usuario.controller;
 
 import com.jpdev.usuario.business.UsuarioService;
+import com.jpdev.usuario.business.dtos.EnderecoDTO;
+import com.jpdev.usuario.business.dtos.TelefoneDTO;
 import com.jpdev.usuario.business.dtos.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.security.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,5 +48,17 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(
             @RequestBody UsuarioDTO dto, @RequestHeader("Authorization") String token){
         return ResponseEntity.ok(usuarioService.atualuzaDadosUsuario(token, dto));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO dto,
+                                                        @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, dto));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO dto,
+                                                        @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, dto));
     }
 }
