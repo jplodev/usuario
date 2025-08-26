@@ -122,4 +122,27 @@ public class UsuarioConverter {
                 .usuario_id(entity.getUsuario_id())
                 .build();
     }
+
+    public Endereco cadastraEndereco(EnderecoDTO dto, Long id){
+        return Endereco.builder()
+                .id(dto.getId())
+                .rua(dto.getRua())
+                .numero(dto.getNumero())
+                .bairro(dto.getBairro())
+                .cidade(dto.getCidade())
+                .estado(dto.getEstado())
+                .cep(dto.getCep())
+                .complemento(dto.getComplemento())
+                .usuario_id(id)
+                .build();
+    }
+
+    public Telefone cadastraTelefone(TelefoneDTO dto, Long id){
+        return Telefone.builder()
+                .id(dto.getId())
+                .ddd(dto.getDdd())
+                .numero(dto.getNumero())
+                .usuario_id(id)
+                .build();
+    }
 }
