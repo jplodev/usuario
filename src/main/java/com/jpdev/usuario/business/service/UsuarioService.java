@@ -4,6 +4,7 @@ import com.jpdev.usuario.business.converter.UsuarioConverter;
 import com.jpdev.usuario.business.dto.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.entity.Usuario;
 import com.jpdev.usuario.infrastructure.exception.ConflictException;
+import com.jpdev.usuario.infrastructure.exception.ResourceNotFoundException;
 import com.jpdev.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +38,14 @@ public class UsuarioService {
 
     public boolean verificaEmailExistente(String email){
         return repository.existsByEmail(email);
+    }
+
+    public Usuario buscaUsuarioPorEmail(String email){
+        return repository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email não encontrado " + email));
+    }
+
+    public void deletaUsuarioPorEmail(String email){
+        repository.deleteByEmail(email);
     }
 
 }
