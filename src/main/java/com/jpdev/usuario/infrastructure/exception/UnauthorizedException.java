@@ -1,7 +1,10 @@
 package com.jpdev.usuario.infrastructure.exception;
 
-public class UnauthorizedException extends RuntimeException {
+import javax.naming.AuthenticationException;
+
+public class UnauthorizedException extends AuthenticationException {
     public UnauthorizedException(String message) {
         super(message);
     }
+
 }
