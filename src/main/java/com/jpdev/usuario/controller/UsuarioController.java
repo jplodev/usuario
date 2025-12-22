@@ -6,14 +6,10 @@ import com.jpdev.usuario.business.dto.TelefoneDTO;
 import com.jpdev.usuario.business.dto.UsuarioDTO;
 import com.jpdev.usuario.business.service.UsuarioService;
 import com.jpdev.usuario.infrastructure.clients.ViaCepDTO;
-import com.jpdev.usuario.infrastructure.entity.Usuario;
-import com.jpdev.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -23,8 +19,7 @@ public class UsuarioController {
 
     private final UsuarioService service;
     public final ViaCepService viaCepService;
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
+
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> salvaUsuario(@RequestBody UsuarioDTO dto){
@@ -32,10 +27,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsuarioDTO dto){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha()));
-        return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    public ResponseEntity<String> login(@RequestBody UsuarioDTO dto)  {
+        return ResponseEntity.ok(service.autenticarUsuario(dto));
     }
 
     @GetMapping

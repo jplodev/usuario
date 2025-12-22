@@ -9,11 +9,18 @@ import com.jpdev.usuario.infrastructure.entity.Telefone;
 import com.jpdev.usuario.infrastructure.entity.Usuario;
 import com.jpdev.usuario.infrastructure.exception.ConflictException;
 import com.jpdev.usuario.infrastructure.exception.ResourceNotFoundException;
+import com.jpdev.usuario.infrastructure.exception.UnauthorizedException;
 import com.jpdev.usuario.infrastructure.repository.EnderecoRepository;
 import com.jpdev.usuario.infrastructure.repository.TelefoneRespository;
 import com.jpdev.usuario.infrastructure.repository.UsuarioRepository;
 import com.jpdev.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +34,7 @@ public class UsuarioService {
     private final UsuarioConverter usuarioConverter;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final AuthenticationManager authenticationManager;
 
     public UsuarioDTO salvaUsuario(UsuarioDTO dto){
         verificaEmail(dto.getEmail());
@@ -48,6 +56,16 @@ public class UsuarioService {
 
     public boolean verificaEmailExistente(String email){
         return usuarioRepository.existsByEmail(email);
+    }
+
+    public String autenticarUsuario(UsuarioDTO dto) throws UnauthorizedException {
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha()));
+            return "Bearer " + jwtUtil.generateToken(authentication.getName());
+        } catch (BadCredentialsException | UsernameNotFoundException | AuthorizationDeniedException e) {
+            throw new UnauthorizedException("Usuario ou senha iválidos ", e.getCause());
+        }
     }
 
     public UsuarioDTO buscaUsuarioPorEmail(String email){
