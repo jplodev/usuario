@@ -4,6 +4,7 @@ import com.jpdev.usuario.business.converter.UsuarioConverter;
 import com.jpdev.usuario.business.dto.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.entity.Usuario;
 import com.jpdev.usuario.infrastructure.exceptions.ConflictException;
+import com.jpdev.usuario.infrastructure.exceptions.ResourceNotFoundException;
 import com.jpdev.usuario.infrastructure.repository.UsuarioRepository;
 import com.jpdev.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +50,14 @@ public class UsuarioService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getSenha()));
         return "Bearer " + jwtUtil.generateToken(authentication.getName());
+    }
+
+    public UsuarioDTO buscaUsuarioPorEmail(String email){
+        return usuarioConverter.paraUsuarioDTO(usuarioRepository.findByEmail(email).orElseThrow(
+                () -> new ResourceNotFoundException("Email não encontrado " + email)));
+    }
+
+    public void deletaUsuarioPorEmail(String email){
+        usuarioRepository.deleteByEmail(email);
     }
 }
