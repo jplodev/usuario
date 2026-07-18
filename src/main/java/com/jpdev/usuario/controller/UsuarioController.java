@@ -7,6 +7,7 @@ import com.jpdev.usuario.business.dto.UsuarioDTO;
 import com.jpdev.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.connector.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,5 +60,17 @@ public class UsuarioController {
     public ResponseEntity<TelefoneDTO> atualizaTelefoneUsuario(@RequestBody TelefoneDTO dto,
                                                                @RequestParam("id") Long id){
         return ResponseEntity.ok(usuarioService.atualizaTelefoneUsuario(id, dto));
+    }
+
+    @PostMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> cadastraEndereco(@RequestBody EnderecoDTO dto,
+                                                        @RequestHeader("Authorization") String token){
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.cadastraEndereco(token, dto));
+    }
+
+    @PostMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> cadastraTelefone(@RequestBody TelefoneDTO dto,
+                                                        @RequestHeader("Authorization") String token){
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.cadastraTelefone(token, dto));
     }
 }
