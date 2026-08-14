@@ -55,8 +55,8 @@ public class UsuarioConverter {
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
                 .senha(usuario.getSenha())
-                .enderecos(paraListaEnderecoDTO(usuario.getEnderecos()))
-                .telefones(paraListaTelefoneDTO(usuario.getTelefones()))
+                .enderecos(usuario.getEnderecos() != null ? paraListaEnderecoDTO(usuario.getEnderecos()) : null)
+                .telefones(usuario.getTelefones() != null ?  paraListaTelefoneDTO(usuario.getTelefones()) : null)
                 .build();
     }
 
