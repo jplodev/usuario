@@ -1,6 +1,8 @@
 package com.jpdev.usuario.controller;
 
 import com.jpdev.usuario.business.UsuarioService;
+import com.jpdev.usuario.business.dtos.EnderecoDTO;
+import com.jpdev.usuario.business.dtos.TelefoneDTO;
 import com.jpdev.usuario.business.dtos.UsuarioDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,4 +36,35 @@ public class UsuarioController {
         usuarioService.deletaUsuarioPorEmail(email);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atualizaUsuario(@RequestBody UsuarioDTO dto,
+                                                      @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, dto));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO dto,
+                                                        @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, dto));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO dto,
+                                                        @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, dto));
+    }
+
+    @PostMapping("endereco")
+    public ResponseEntity<EnderecoDTO> cadastraTelefone(@RequestBody EnderecoDTO dto,
+                                                        @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.cadastraEndereco(token, dto));
+    }
+
+    @PostMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> cadastraTelefon(@RequestBody TelefoneDTO dto,
+                                                       @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.cadastraTelefone(token, dto));
+    }
+
 }
